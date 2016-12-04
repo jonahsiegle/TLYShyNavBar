@@ -155,7 +155,14 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 
 - (void)setScrollView:(UIScrollView *)scrollView
 {
-    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
+    @try{
+        if (self.observerAdded) {
+            self.observerAdded = NO;
+            [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
+        }
+    }@catch(id anException){
+        //do nothing, obviously it wasn't attached because an exception was thrown
+    }
 
     if (_scrollView.delegate == self.delegateProxy)
     {
@@ -195,8 +202,15 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
         [self cleanup];
         [self layoutViews];
     }
-    
-    [_scrollView addObserver:self forKeyPath:@"contentSize" options:0 context:kTLYShyNavBarManagerKVOContext];
+
+    @try{
+        if (self.observerAdded) {
+            [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
+        }
+    }@catch(id anException){
+        //do nothing, obviously it wasn't attached because an exception was thrown
+    }
+
 }
 
 - (CGRect)extensionViewBounds
