@@ -50,6 +50,8 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
 @property (nonatomic, readonly) BOOL isViewControllerVisible;
 @property (nonatomic, readonly) BOOL isPageViewController;
 
+@property (nonatomic, assign) BOOL observerAdded;
+
 @end
 
 @implementation TLYShyNavBarManager
