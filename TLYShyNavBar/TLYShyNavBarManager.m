@@ -125,7 +125,11 @@ static void * const kTLYShyNavBarManagerKVOContext = (void*)&kTLYShyNavBarManage
     }
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
+    @try{
+        [_scrollView removeObserver:self forKeyPath:@"contentSize" context:kTLYShyNavBarManagerKVOContext];
+    } @catch (id anException) {
+
+    }
 }
 
 #pragma mark - Properties
